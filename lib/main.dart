@@ -84,18 +84,23 @@ class FlutterDemo extends StatefulWidget {
 //------------------------------------------------------------------------------
 
 class _FlutterDemoState extends State<FlutterDemo> {
+
+  // var to store text from notes
   String _content;
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final myController = TextEditingController();
 
+  // index var - 0: Load, 1: Password, 2: Save
+  int _selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
 
-    // change content when changing text input
-    myController.addListener(_changeContent);
+    // set listeners to refresh app
+    myController.addListener(_loadContent);
 
     // load content to _content var
     _loadContent();
@@ -104,7 +109,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
+    // This also removes the listeners.
     myController.dispose();
     super.dispose();
   }
@@ -127,6 +132,10 @@ class _FlutterDemoState extends State<FlutterDemo> {
 
   // save content to file
   Future<File> _saveContent() {
+    // save to content var
+    _changeContent();
+
+    // save content to file
     return widget.storage.writeContent(_content);
   }
 
@@ -136,7 +145,6 @@ class _FlutterDemoState extends State<FlutterDemo> {
   }
 
   // operate NavigationBar
-  int _selectedIndex = 0;
   void _onItemTapped(int index) {
     _selectedIndex = index;
     if (index == 0) {
@@ -224,5 +232,4 @@ class _FlutterDemoState extends State<FlutterDemo> {
     );
   }
 }
-
 //==============================================================================
