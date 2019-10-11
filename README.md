@@ -1,7 +1,12 @@
 # flatapp
 
-Flutter example app, made for learning purposes,
-specifically security research.
+Flutter example app, made for learning purposes, specifically security research.
+
+Current version:
+* v0.1: application can store 1 note in file note.txt, which is available only for FlatApp.
+
+Incoming version:
+* v0.2: access to application is encrypted.
 
 ## Getting Started
 
@@ -16,7 +21,12 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## Notes on security
+## Files: read and write
+
+Flutter tutorial and documentation is [here](https://flutter.dev/docs/cookbook/persistence/reading-writing-files).
+It requires [path_provider](https://pub.dev/packages/path_provider#-installing-tab-) package.
+
+## Security: passwords and encryption
 
 [Security tips from Android team](https://developer.android.com/training/articles/security-tips)
 
