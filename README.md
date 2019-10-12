@@ -21,6 +21,20 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Installing project
+
+* Download repository to your desired location. 
+* Flutter requires **Android Studio** for Android deployment. 
+    
+    Recommended IDLE to code is **Intellij IDEA**.
+    
+* Remember to install **Flutter** plugin, following [these instructions](https://flutter.dev/docs/get-started/install).
+* install packages required for this project with `flutter pub get`, run in **your project folder!**
+
+    Any additional packages should be implemented in **pubspec.yaml file** and installed as written above.
+    
+FlatApp current minSdkVersion (Android level) is 18.
+
 ## Files: read and write
 
 Flutter tutorial and documentation is [here](https://flutter.dev/docs/cookbook/persistence/reading-writing-files).
@@ -64,7 +78,8 @@ Password should be stored and read from Android KeyStore System
     
 Flutter utilises AKSS with [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage).
 
-###Encryption details (per flutter_secure_storage documentation):
+###Encryption details
+Per [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) documentation:
 
 **Defaults**
 
@@ -82,6 +97,8 @@ Flutter utilises AKSS with [flutter_secure_storage](https://pub.dev/packages/flu
 | Salt	            | 32 bytes Fortuna  |
 | Iteration count   | 10000             |
 | Key length	    | 64 bytes          |
+
+### Passwords handling
 
 Simple password hashing code is presented in [password](https://pub.dev/packages/password#-readme-tab-) package.
 

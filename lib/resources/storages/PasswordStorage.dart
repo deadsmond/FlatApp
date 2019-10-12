@@ -1,7 +1,7 @@
 import 'package:password/password.dart';
 import 'SecureStorage.dart';
 
-
+//==============================================================================
 // Class containing safe password storage and validation
 class PasswordStorage{
 
@@ -27,3 +27,4 @@ class PasswordStorage{
     return Password.verify(password, storage.readKey(key).toString());
   }
 }
+//==============================================================================

@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
-// Class containing file manipulation procedures
+//==============================================================================
+// Class containing password keys manipulation procedures
 class SecureStorage{
 
   // Create storage
@@ -48,3 +48,4 @@ class SecureStorage{
     await storage.write(key: key, value: value);
   }
 }
+//==============================================================================

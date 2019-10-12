@@ -2,6 +2,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
 
+//==============================================================================
 // class containing file manipulation procedures
 class ContentStorage {
 
@@ -54,3 +55,4 @@ class ContentStorage {
     return file.writeAsString('$content');
   }
 }
+//==============================================================================
