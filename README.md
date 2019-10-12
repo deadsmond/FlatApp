@@ -28,7 +28,7 @@ It requires [path_provider](https://pub.dev/packages/path_provider#-installing-t
 
 ## Security: passwords and encryption
 
-[Security tips from Android team](https://developer.android.com/training/articles/security-tips)
+###[Security tips from Android team](https://developer.android.com/training/articles/security-tips)
 
 [On safe storage](https://developer.android.com/guide/topics/data/data-storage.html#filesInternal):
 
@@ -64,7 +64,7 @@ Password should be stored and read from Android KeyStore System
     
 Flutter utilises AKSS with [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage).
 
-Encryption details (per flutter_secure_storage documentation):
+###Encryption details (per flutter_secure_storage documentation):
 
 **Defaults**
 
