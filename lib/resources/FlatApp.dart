@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'storages/ContentStorage.dart';
 import 'storages/PasswordStorage.dart';
+import 'routes/PasswordRoute.dart';
 
 //==============================================================================
 // FlatApp class object, operating algorithms and behaviour
@@ -18,11 +19,11 @@ class FlatApp extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FlutterDemoState createState() => _FlutterDemoState();
+  _FlatAppMainState createState() => _FlatAppMainState();
 }
 
 //==============================================================================
-class _FlutterDemoState extends State<FlatApp> {
+class _FlatAppMainState extends State<FlatApp> {
 
   //---------------------------- VARIABLES -------------------------------------
   // var to store text from notes
@@ -101,8 +102,10 @@ class _FlutterDemoState extends State<FlatApp> {
       _loadContent();
       _alertDialog("Load");
     } else if (index == 1) {
-      _changePassword("1234");
-      _alertDialog("Password operation");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PasswordRoute()),
+      );
     } else if (index == 2) {
       _saveContent();
       _alertDialog("Save");
@@ -152,6 +155,7 @@ class _FlutterDemoState extends State<FlatApp> {
             ),
             Text(
               '$_content',
+              softWrap: true,
             ),
             Text(
               'Edit note:',
