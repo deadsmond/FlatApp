@@ -53,6 +53,8 @@ New screens (or views) should be operated by Navigator as in [this example](http
 Flutter tutorial and documentation is [here](https://flutter.dev/docs/cookbook/persistence/reading-writing-files).
 It requires [path_provider](https://pub.dev/packages/path_provider#-installing-tab-) package.
 
+Reading and writing data should be asynchronous according to [this manual](https://dart.dev/codelabs/async-await).
+
 ## Security: passwords and encryption
 
 ###[Security tips from Android team](https://developer.android.com/training/articles/security-tips)
