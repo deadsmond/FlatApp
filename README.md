@@ -59,7 +59,7 @@ It requires [path_provider](https://pub.dev/packages/path_provider#-installing-t
 
 [On safe storage](https://developer.android.com/guide/topics/data/data-storage.html#filesInternal):
 
-> Internal storage (currently used in FlatApp)
+> **Internal storage (currently used in FlatApp)**
 
 > By default, files saved to the internal storage are private to your app, and other apps cannot access them 
 > (nor can the user, unless they have root access). This makes internal storage a good place for internal app data 
@@ -70,7 +70,7 @@ It requires [path_provider](https://pub.dev/packages/path_provider#-installing-t
 > you should not use internal storage to save anything the user expects to persist independently of your app. 
     
 
-> External storage  (not used in FlatApp)
+> **External storage  (not used in FlatApp)**
     
 > Files created on external storage, such as SD cards, are globally readable and writable. 
 > Because external storage can be removed by the user and also modified by any application, 
@@ -78,6 +78,8 @@ It requires [path_provider](https://pub.dev/packages/path_provider#-installing-t
     
 > To read and write files on external storage in a more secure way, consider using the Security library, 
 > which provides the EncryptedFile class.
+
+Internal storage in FlatApp is being operated via ContentStorage object.
     
 Password should be stored and read from Android KeyStore System 
 ([source](https://academy.realm.io/posts/secure-storage-in-android-san-francisco-android-meetup-2017-najafzadeh/)):
@@ -90,6 +92,7 @@ Password should be stored and read from Android KeyStore System
 > so it does not work like a database. You cannot store whatever data you want.
     
 Flutter utilises AKSS with [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage).
+FlatApp does it via PasswordStorage and SecureStorage objects.
 
 ###Encryption details
 Per [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) documentation:
