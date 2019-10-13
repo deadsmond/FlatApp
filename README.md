@@ -1,12 +1,16 @@
-# flatapp
+# FlatApp
 
 Flutter example app, made for learning purposes, specifically security research.
 
+Previous versions:
+* v0.1: application can store 1 note in file note.txt, which is available only for FlatApp.
+
 Current version:
-* **v0.1**: application can store 1 note in file note.txt, which is available only for FlatApp.
+* **v0.2**: password validation object is present but mostly inactive
 
 Incoming version:
-* v0.2: access to application is encrypted.
+* v0.3: access to application is encrypted.
+* v0.4: password can be changed in separate view.
 
 ## Getting Started
 
@@ -33,7 +37,14 @@ samples, guidance on mobile development, and a full API reference.
 
     Any additional packages should be implemented in **pubspec.yaml file** and installed as written above.
     
+## Design
+    
 FlatApp current minSdkVersion (Android level) is 18.
+
+App main colour is `HEX: 0197f8` or `RGBA: 1 151 248 100`.
+
+Custom icons were created in [Android Asset Studio Launcher icon generator](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=filter_vintage&foreground.space.trim=1&foreground.space.pad=0.25&foreColor=rgb(1%2C%20151%2C%20248)&backColor=rgb(255%2C%20255%2C%20255)&crop=0&backgroundShape=circle&effects=none&name=ic_launcher).
+No custom icons for iOS are developed yet.
 
 ## Files: read and write
 
