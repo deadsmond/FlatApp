@@ -8,6 +8,7 @@ import 'resources/FlatApp.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'FlatApp: read & write text',
       home: FlatApp(
           storageContent: ContentStorage(),

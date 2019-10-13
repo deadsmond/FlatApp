@@ -82,17 +82,6 @@ class _FlatAppMainState extends State<FlatApp> {
     return widget.storageContent.writeContent(_content);
   }
 
-  //--------------------------- PASSWORD CONTENT -------------------------------
-  // operate password - inactive
-  void _changePassword(password){
-    widget.storagePassword.storePassword(password);
-  }
-
-  // reminder on password validation - REMOVE REPAIR
-  bool _validatePassword(password){
-    return widget.storagePassword.verify(password);
-  }
-
   //-------------------------- FRONT VIEW OF APP -------------------------------
   Future<void> _alertDialog(String message) async {
     return showDialog<void>(
