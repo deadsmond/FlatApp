@@ -6,6 +6,7 @@ import 'storages/ContentStorage.dart';
 import 'storages/PasswordStorage.dart';
 import 'routes/PasswordRoute.dart';
 
+
 //==============================================================================
 // FlatApp class object, operating algorithms and behaviour
 class FlatApp extends StatefulWidget {
@@ -32,9 +33,6 @@ class _FlatAppMainState extends State<FlatApp> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final myController = TextEditingController();
-
-  // index var - 0: Load, 1: Password, 2: Save
-  int _selectedIndex = 0;
 
   //--------------------------- INITIALIZATION ---------------------------------
   // application init
@@ -70,6 +68,7 @@ class _FlatAppMainState extends State<FlatApp> {
     widget.storageContent.readContent().then((String value) {
       setState(() {
         _content = value;
+        myController.text = _content;
       });
     });
   }
@@ -82,8 +81,8 @@ class _FlatAppMainState extends State<FlatApp> {
     // save content to file
     return widget.storageContent.writeContent(_content);
   }
-  //--------------------------- PASSWORD CONTENT -------------------------------
 
+  //--------------------------- PASSWORD CONTENT -------------------------------
   // operate password - inactive
   void _changePassword(password){
     widget.storagePassword.storePassword(password);
@@ -95,23 +94,6 @@ class _FlatAppMainState extends State<FlatApp> {
   }
 
   //-------------------------- FRONT VIEW OF APP -------------------------------
-  // operate NavigationBar
-  void _onItemTapped(int index){
-    _selectedIndex = index;
-    if (index == 0) {
-      _loadContent();
-      _alertDialog("Load");
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PasswordRoute()),
-      );
-    } else if (index == 2) {
-      _saveContent();
-      _alertDialog("Save");
-    }
-  }
-
   Future<void> _alertDialog(String message) async {
     return showDialog<void>(
       context: context,
@@ -138,8 +120,8 @@ class _FlatAppMainState extends State<FlatApp> {
       },
     );
   }
-  //---------------------------- MAIN WIDGET -----------------------------------
 
+  //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,8 +163,26 @@ class _FlatAppMainState extends State<FlatApp> {
             title: Text('Save'),
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+          // operate NavigationBar
+        onTap: (index) {
+          // operate NavigationBar
+          switch (index) {
+            case 0:
+              _loadContent();
+              _alertDialog("Load");
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PasswordRoute()),
+              );
+              break;
+            case 2:
+              _saveContent();
+              _alertDialog("Save");
+              break;
+          }
+        }
       ),
     );
   }

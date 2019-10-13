@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
 
+//==============================================================================
+// FlatApp password view, operating password manipulation
 class PasswordRoute extends StatelessWidget {
+
+  //---------------------------- VARIABLES -------------------------------------
+
+
+  //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text("FlatApp: login page"),
       ),
       body: Center(
         child: RaisedButton(
@@ -16,52 +23,35 @@ class PasswordRoute extends StatelessWidget {
           child: Text('Go back!'),
         ),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('FlatApp: note editor'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Note content:',
+      bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Load'),
             ),
-            Text(
-              '$_content',
-              softWrap: true,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.note),
+              title: Text('Note'),
             ),
-            Text(
-              'Edit note:',
-            ),
-            TextField(
-              controller: myController,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.save),
+              title: Text('Save'),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Load'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lock),
-            title: Text('Password'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.save),
-            title: Text('Save'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+          onTap: (index) {
+            // operate NavigationBar
+            switch (index) {
+              case 0:
+                print("Load");
+                break;
+              case 1:
+                Navigator.pop(context);
+                break;
+              case 2:
+                print("Save");
+                break;
+            }
+          }
       ),
     );
   }
