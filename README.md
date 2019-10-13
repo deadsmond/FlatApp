@@ -46,6 +46,8 @@ App main colour is `HEX: 0197f8` or `RGBA: 1 151 248 100`.
 Custom icons were created in [Android Asset Studio Launcher icon generator](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=filter_vintage&foreground.space.trim=1&foreground.space.pad=0.25&foreColor=rgb(1%2C%20151%2C%20248)&backColor=rgb(255%2C%20255%2C%20255)&crop=0&backgroundShape=circle&effects=none&name=ic_launcher).
 No custom icons for iOS are developed yet.
 
+New screens (or views) should be operated by Navigator as in [this example](https://flutter.dev/docs/cookbook/navigation/navigation-basics).
+
 ## Files: read and write
 
 Flutter tutorial and documentation is [here](https://flutter.dev/docs/cookbook/persistence/reading-writing-files).
