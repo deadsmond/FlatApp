@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flushbar/flushbar.dart';
 import '../storages/PasswordStorage.dart';
+import 'NoteRoute.dart';
 
 
 //==============================================================================
 // FlatApp login view, operating application access point
-class LoginRoute extends StatelessWidget {
+class LoginRoute extends StatefulWidget {
+  @override
+  _LoginRouteState createState() => _LoginRouteState();
+}
+
+class _LoginRouteState extends State<LoginRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
   // Create a text controller and use it to retrieve the current value
@@ -13,12 +20,6 @@ class LoginRoute extends StatelessWidget {
 
   // password storage object - for validation purpose only
   final PasswordStorage passwordStorage = PasswordStorage();
-
-  //--------------------------- PASSWORD CONTENT -------------------------------
-  // password validation
-  bool _validatePassword(password){
-    return passwordStorage.verify(myController.text);
-  }
 
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
@@ -62,6 +63,21 @@ class LoginRoute extends StatelessWidget {
             case 1:
             // check password from controller
               print("Attempted login");
+
+              if(passwordStorage.verify(myController.text)==true){
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (buildContext) => FlatApp()
+                    )
+                );
+              }else{
+                  Flushbar(
+                    title:  "Hey Ninja",
+                    message:  "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                    duration:  Duration(seconds: 3),
+                  )..show(context);
+              }
               break;
           }
         }

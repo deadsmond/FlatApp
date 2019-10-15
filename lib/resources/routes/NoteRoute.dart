@@ -1,24 +1,14 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'storages/ContentStorage.dart';
-import 'storages/PasswordStorage.dart';
-import 'routes/PasswordRoute.dart';
+import '../storages/ContentStorage.dart';
+import '../storages/PasswordStorage.dart';
+import 'PasswordRoute.dart';
 
 
 //==============================================================================
 // FlatApp class object, operating algorithms and behaviour
 class FlatApp extends StatefulWidget {
-  final ContentStorage storageContent;
-  final PasswordStorage storagePassword;
-
-  FlatApp({
-    Key key,
-    @required this.storageContent,
-    @required this.storagePassword
-  }) : super(key: key);
-
   @override
   _FlatAppMainState createState() => _FlatAppMainState();
 }
@@ -27,6 +17,10 @@ class FlatApp extends StatefulWidget {
 class _FlatAppMainState extends State<FlatApp> {
 
   //---------------------------- VARIABLES -------------------------------------
+
+  ContentStorage storageContent;
+  PasswordStorage storagePassword;
+
   // var to store text from notes
   String _content;
 
@@ -40,11 +34,15 @@ class _FlatAppMainState extends State<FlatApp> {
   void initState() {
     super.initState();
 
+    // REPAIR THIS SECTION - overuse of _loadContent causes app to crash
+    // text field controller (move cursor to the first letter and do not allow
+    // entering text)
+
     // set listeners to refresh app
-    myController.addListener(_loadContent);
+    //myController.addListener(_loadContent);
 
     // load content to _content var
-    _loadContent();
+    //_loadContent();
   }
 
   @override
@@ -65,7 +63,7 @@ class _FlatAppMainState extends State<FlatApp> {
   //-------------------------- FILE CONTENT ------------------------------------
   // load content from file
   _loadContent(){
-    widget.storageContent.readContent().then((String value) {
+    storageContent.readContent().then((String value) {
       setState(() {
         _content = value;
         myController.text = _content;
@@ -79,7 +77,7 @@ class _FlatAppMainState extends State<FlatApp> {
     _changeContent();
 
     // save content to file
-    return widget.storageContent.writeContent(_content);
+    return storageContent.writeContent(_content);
   }
 
   //-------------------------- FRONT VIEW OF APP -------------------------------

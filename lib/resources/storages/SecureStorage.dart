@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
 //==============================================================================
 // Class containing password keys manipulation procedures
 class SecureStorage{

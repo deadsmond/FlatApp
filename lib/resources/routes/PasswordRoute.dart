@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-
 //==============================================================================
 // FlatApp password view, operating password manipulation
-class PasswordRoute extends StatelessWidget {
+class PasswordRoute extends StatefulWidget {
+  @override
+  _PasswordRouteState createState() => _PasswordRouteState();
+}
+
+class _PasswordRouteState extends State<PasswordRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
 
@@ -26,10 +30,6 @@ class PasswordRoute extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Load'),
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.note),
               title: Text('Note'),
             ),
@@ -42,12 +42,9 @@ class PasswordRoute extends StatelessWidget {
             // operate NavigationBar
             switch (index) {
               case 0:
-                print("Load");
-                break;
-              case 1:
                 Navigator.pop(context);
                 break;
-              case 2:
+              case 1:
                 print("Save");
                 break;
             }
