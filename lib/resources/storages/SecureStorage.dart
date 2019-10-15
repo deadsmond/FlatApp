@@ -8,7 +8,7 @@ class SecureStorage{
   // Create storage
   final storage = new FlutterSecureStorage();
 
-  // Read key value
+  // Read key value - REPAIR - NEEDS TO RETURN STRING, NOT FUTURE STRING
   Future<String> readKey(key) async {
     try {
       // Read value

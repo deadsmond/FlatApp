@@ -43,7 +43,7 @@ class ContentStorage {
       return contents;
     } catch (e) {
       // If encountering an error, return 0
-      return "error";
+      return "error while reading note";
     }
   }
 

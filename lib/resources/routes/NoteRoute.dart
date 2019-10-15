@@ -63,12 +63,16 @@ class _FlatAppMainState extends State<FlatApp> {
   //-------------------------- FILE CONTENT ------------------------------------
   // load content from file
   _loadContent(){
-    storageContent.readContent().then((String value) {
-      setState(() {
-        _content = value;
-        myController.text = _content;
+    try {
+      storageContent.readContent().then((String value) {
+        setState(() {
+          _content = value;
+          myController.text = _content;
+        });
       });
-    });
+    } catch (e){
+      _alertDialog("Error while loading null file content. Execution ");
+    }
   }
 
   // save content to file

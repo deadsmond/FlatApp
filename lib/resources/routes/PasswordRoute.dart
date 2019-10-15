@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../storages/PasswordStorage.dart';
+import 'package:flushbar/flushbar.dart';
 
 //==============================================================================
 // FlatApp password view, operating password manipulation
@@ -10,21 +12,33 @@ class PasswordRoute extends StatefulWidget {
 class _PasswordRouteState extends State<PasswordRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
+  // Create a text controller and use it to retrieve the current value
+  // of the TextField.
+  final myController = TextEditingController();
 
+  // password storage object
+  PasswordStorage passwordStorage = PasswordStorage();
 
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FlatApp: login page"),
+        title: Text("FlatApp: password page"),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Please enter password:',
+            ),
+            TextField(
+              controller: myController,
+              // hide text input (replace it with dots)
+              obscureText: true,
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -45,7 +59,15 @@ class _PasswordRouteState extends State<PasswordRoute> {
                 Navigator.pop(context);
                 break;
               case 1:
-                print("Save");
+                print("Saving new password...");
+                passwordStorage.storePassword(myController.text);
+                print("Password saved.");
+                Flushbar(
+                  title: "Success",
+                  message: "New password saved",
+                  duration: Duration(seconds: 3),
+                )
+                  ..show(context);
                 break;
             }
           }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/services.dart';
 import '../storages/PasswordStorage.dart';
+import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
 
 
@@ -21,6 +23,9 @@ class _LoginRouteState extends State<LoginRoute> {
   // password storage object - for validation purpose only
   final PasswordStorage passwordStorage = PasswordStorage();
 
+  // content storage object - for emergency cleanup only
+  final ContentStorage storageContent = ContentStorage();
+
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,8 @@ class _LoginRouteState extends State<LoginRoute> {
             ),
             TextField(
               controller: myController,
+              // hide text input (replace it with dots)
+              obscureText: true,
             ),
           ],
         ),
@@ -57,26 +64,50 @@ class _LoginRouteState extends State<LoginRoute> {
           // operate NavigationBar
           switch (index) {
             case 0:
-              // exit app
+              // exit app - this is preferred way
+              //https://api.flutter.dev/flutter/services/SystemNavigator/pop.html
               print("Exit app");
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               break;
             case 1:
-            // check password from controller
               print("Attempted login");
+              try {
+                // check password from controller
+                print(passwordStorage.verify(myController.text));
+                if (passwordStorage.verify(myController.text) == true) {
+                  // go to note route
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (buildContext) => FlatApp()
+                      )
+                  );
+                } else {
+                  Flushbar(
+                    title: "Error",
+                    message: "Wrong password. Please try again.",
+                    duration: Duration(seconds: 3),
+                  )
+                    ..show(context);
+                }
+              } catch (e){
+                // no password found:
+                // clear note file for security reasons
+                print("Error during login. Cleared note cache...");
+                storageContent.writeContent("");
 
-              if(passwordStorage.verify(myController.text)==true){
+                // what went wrong?
+                print(e);
+
+                // ask for new password - REPAIR
+
+                // go to note route - REPAIR
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (buildContext) => FlatApp()
                     )
                 );
-              }else{
-                  Flushbar(
-                    title:  "Hey Ninja",
-                    message:  "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-                    duration:  Duration(seconds: 3),
-                  )..show(context);
               }
               break;
           }
