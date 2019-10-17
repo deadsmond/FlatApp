@@ -20,11 +20,18 @@ class _PasswordRouteState extends State<PasswordRoute> {
   PasswordStorage passwordStorage = PasswordStorage();
 
   //---------------------------- MAIN WIDGET -----------------------------------
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("FlatApp: password page"),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop(null),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

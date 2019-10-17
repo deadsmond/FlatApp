@@ -118,6 +118,12 @@ class _FlatAppMainState extends State<FlatApp> {
     return Scaffold(
       appBar: AppBar(
         title: Text('FlatApp: note editor'),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop(null),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -23,8 +23,12 @@ class PasswordStorage{
 
   // Verify Password
   bool verify(password){
-    // get hash from storage and verify it
-    return Password.verify(password, storage.readKey(key).toString());
+    // get hash from storage and verify it - REPAIR
+    // return Password.verify(password, storage.readKey(key).toString());
+
+    storage.readKey(key).then((value) {
+      return Password.verify(password, value);
+    });
   }
 }
 //==============================================================================
