@@ -21,19 +21,6 @@ class SecureStorage{
     }
   }
 
-  // Read all values
-  Future<Map> readAll(key) async {
-    try {
-      // Read value
-      Map<String, String> allValues = await storage.readAll();
-      return allValues;
-
-    } catch (e) {
-      // If encountering an error, return 0
-      return {'error': '-1'};
-    }
-  }
-
   // Delete value
   void deleteKey(key) async {
     await storage.delete(key: key);

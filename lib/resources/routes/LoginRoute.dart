@@ -18,7 +18,7 @@ class _LoginRouteState extends State<LoginRoute> {
   //---------------------------- VARIABLES -------------------------------------
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final myController = TextEditingController();
+  final textController = TextEditingController();
 
   // password storage object - for validation purpose only
   final PasswordStorage passwordStorage = PasswordStorage();
@@ -26,7 +26,7 @@ class _LoginRouteState extends State<LoginRoute> {
   // content storage object - for emergency cleanup only
   final ContentStorage storageContent = ContentStorage();
 
-
+  //---------------------------- DIALOG ----------------------------------------
   Future<void> _errorDialog() async {
     return showDialog<void>(
       context: context,
@@ -67,7 +67,8 @@ class _LoginRouteState extends State<LoginRoute> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(null),
+            onPressed: () =>
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
           ),
         ],
       ),
@@ -79,7 +80,7 @@ class _LoginRouteState extends State<LoginRoute> {
               'Please enter password:',
             ),
             TextField(
-              controller: myController,
+              controller: textController,
               // hide text input (replace it with dots)
               obscureText: true,
             ),
@@ -111,20 +112,21 @@ class _LoginRouteState extends State<LoginRoute> {
               print("Attempted login");
               try {
                 // check password from controller
-                print(passwordStorage.verify(myController.text));
-                if (passwordStorage.verify(myController.text) == true || myController.text == "xd") {
+                if (passwordStorage.verify(textController.text)) {
+                  print("Correct password, entry allowed.");
                   // go to note route
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (buildContext) => FlatApp()
-                      )
+                    context,
+                    MaterialPageRoute(
+                        builder: (buildContext) => FlatApp()
+                    )
                   );
                 } else {
+                  print("Wrong password, entry denied.");
                   Flushbar(
                     title: "Error",
                     message: "Wrong password. Please try again.",
-                    duration: Duration(seconds: 3),
+                    duration: Duration(seconds: 5),
                   )
                     ..show(context);
                 }
@@ -133,19 +135,16 @@ class _LoginRouteState extends State<LoginRoute> {
                 // clear note file for security reasons
                 print("Error during login. Cleared note cache...");
                 storageContent.writeContent("");
-
                 // what went wrong?
                 print(e);
-
                 // ask for new password
                 _errorDialog();
-
                 // go to note route
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (buildContext) => FlatApp()
-                    )
+                  context,
+                  MaterialPageRoute(
+                      builder: (buildContext) => FlatApp()
+                  )
                 );
               }
               break;

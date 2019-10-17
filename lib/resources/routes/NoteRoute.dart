@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../storages/ContentStorage.dart';
 import '../storages/PasswordStorage.dart';
 import 'PasswordRoute.dart';
+import 'package:flushbar/flushbar.dart';
 
 
 //==============================================================================
@@ -26,7 +28,7 @@ class _FlatAppMainState extends State<FlatApp> {
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final myController = TextEditingController();
+  final textController = TextEditingController();
 
   //--------------------------- INITIALIZATION ---------------------------------
   // application init
@@ -39,7 +41,7 @@ class _FlatAppMainState extends State<FlatApp> {
     // entering text)
 
     // set listeners to refresh app
-    //myController.addListener(_loadContent);
+    //textController.addListener(_loadContent);
 
     // load content to _content var
     //_loadContent();
@@ -49,14 +51,14 @@ class _FlatAppMainState extends State<FlatApp> {
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the listeners.
-    myController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
   // change content var, but not file
   _changeContent() {
     setState(() {
-      _content = myController.text;
+      _content = textController.text;
     });
   }
 
@@ -67,11 +69,17 @@ class _FlatAppMainState extends State<FlatApp> {
       storageContent.readContent().then((String value) {
         setState(() {
           _content = value;
-          myController.text = _content;
+          textController.text = _content;
         });
       });
     } catch (e){
-      _alertDialog("Error while loading null file content. Execution ");
+      print("error during file loading\n$e");
+      Flushbar(
+        title: "Error",
+        message: "Error occurred while loading content",
+        duration: Duration(seconds: 5),
+      )
+        ..show(context);
     }
   }
 
@@ -84,34 +92,6 @@ class _FlatAppMainState extends State<FlatApp> {
     return storageContent.writeContent(_content);
   }
 
-  //-------------------------- FRONT VIEW OF APP -------------------------------
-  Future<void> _alertDialog(String message) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Action completed'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('$message completed'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {
@@ -121,7 +101,8 @@ class _FlatAppMainState extends State<FlatApp> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(null),
+            onPressed: () =>
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
           ),
         ],
       ),
@@ -140,7 +121,7 @@ class _FlatAppMainState extends State<FlatApp> {
               'Edit note:',
             ),
             TextField(
-              controller: myController,
+              controller: textController,
             ),
           ],
         ),
@@ -148,7 +129,7 @@ class _FlatAppMainState extends State<FlatApp> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.file_download),
             title: Text('Load'),
           ),
           BottomNavigationBarItem(
@@ -159,14 +140,18 @@ class _FlatAppMainState extends State<FlatApp> {
             icon: Icon(Icons.save),
             title: Text('Save'),
           ),
-        ],
-          // operate NavigationBar
+        ], // operate NavigationBar
         onTap: (index) {
           // operate NavigationBar
           switch (index) {
             case 0:
               _loadContent();
-              _alertDialog("Load");
+              Flushbar(
+                title: "Loaded",
+                message: "Content loaded successfully.",
+                duration: Duration(seconds: 5),
+              )
+                ..show(context);
               break;
             case 1:
               Navigator.push(
@@ -176,7 +161,12 @@ class _FlatAppMainState extends State<FlatApp> {
               break;
             case 2:
               _saveContent();
-              _alertDialog("Save");
+              Flushbar(
+                title: "Saved",
+                message: "Content saved successfully.",
+                duration: Duration(seconds: 5),
+              )
+                ..show(context);
               break;
           }
         }

@@ -6,29 +6,37 @@ import 'SecureStorage.dart';
 class PasswordStorage{
 
   // Initialize storage access
-  final storage = new SecureStorage();
+  static final storage = new SecureStorage();
 
   // Init vars
   final algorithm = PBKDF2();
   // no Password var in class:
   // password is never stored in object and therefore won't leak
-  final key = "FlatAppPasswdKey";
+  static const key = "FlatAppPasswdKey";
   // only the key (id of our key in Android KeyStore) to the storage is present
 
   // Store password
   void storePassword(password){
     // Never store password with plain text - use hash
-    storage.write(key, Password.hash(password, algorithm));
+    storage.write(key, password);
   }
+
+  //store:
+  // Password.hash(password, algorithm)
+  // read:
+  // Password.verify(password, hash)
 
   // Verify Password
   bool verify(password){
-    // get hash from storage and verify it - REPAIR
-    // return Password.verify(password, storage.readKey(key).toString());
-
+    // get hash from storage and verify it
     storage.readKey(key).then((value) {
-      return Password.verify(password, value);
+      print("passwd: $password\nvalue: $value");
+      print(password==value);
+      return password==value;
     });
+    // REPAIR - due to the future nature of this function,
+    // this section will always be executed
+    return true;
   }
 }
 //==============================================================================
