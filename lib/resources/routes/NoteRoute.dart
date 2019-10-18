@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../storages/ContentStorage.dart';
@@ -44,7 +42,7 @@ class _FlatAppMainState extends State<FlatApp> {
     //textController.addListener(_loadContent);
 
     // load content to _content var
-    //_loadContent();
+    _loadContent();
   }
 
   @override
@@ -64,14 +62,22 @@ class _FlatAppMainState extends State<FlatApp> {
 
   //-------------------------- FILE CONTENT ------------------------------------
   // load content from file
-  _loadContent(){
+  void _loadContent(){
     try {
       storageContent.readContent().then((String value) {
-        setState(() {
-          _content = value;
-          textController.text = _content;
-        });
-      });
+          setState(() {
+              _content = value;
+              textController.text = _content;
+            }
+          );
+          Flushbar(
+            title: "Loaded",
+            message: "Content loaded successfully.",
+            duration: Duration(seconds: 5),
+          )
+            ..show(context);
+        }
+      );
     } catch (e){
       print("error during file loading\n$e");
       Flushbar(
@@ -84,12 +90,12 @@ class _FlatAppMainState extends State<FlatApp> {
   }
 
   // save content to file
-  Future<File> _saveContent() {
+  void _saveContent() {
     // save to content var
     _changeContent();
 
     // save content to file
-    return storageContent.writeContent(_content);
+    storageContent.writeContent(_content);
   }
 
   //---------------------------- MAIN WIDGET -----------------------------------
@@ -121,6 +127,10 @@ class _FlatAppMainState extends State<FlatApp> {
               'Edit note:',
             ),
             TextField(
+              keyboardType: TextInputType.multiline,
+              // add multiline textfield, with no max lines
+              // (change null to value if needed)
+              maxLines: null,
               controller: textController,
             ),
           ],
@@ -146,12 +156,6 @@ class _FlatAppMainState extends State<FlatApp> {
           switch (index) {
             case 0:
               _loadContent();
-              Flushbar(
-                title: "Loaded",
-                message: "Content loaded successfully.",
-                duration: Duration(seconds: 5),
-              )
-                ..show(context);
               break;
             case 1:
               Navigator.push(

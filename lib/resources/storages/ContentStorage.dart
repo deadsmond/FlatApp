@@ -36,10 +36,8 @@ class ContentStorage {
   Future<String> readContent() async {
     try {
       final file = await _localFile;
-
       // Read the file
       String contents = await file.readAsString();
-
       return contents;
     } catch (e) {
       // If encountering an error, return 0
@@ -49,10 +47,14 @@ class ContentStorage {
 
   // write some data to the file
   Future<File> writeContent(String content) async {
-    final file = await _localFile;
-
-    // Write the file
-    return file.writeAsString('$content');
+    try {
+      final file = await _localFile;
+      // Write the file
+      return file.writeAsString('$content');
+    } catch (e) {
+      // If encountering an error, return error
+      return e;
+    }
   }
 }
 //==============================================================================
