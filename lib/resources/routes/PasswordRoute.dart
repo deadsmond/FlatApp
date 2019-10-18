@@ -77,25 +77,32 @@ class _PasswordRouteState extends State<PasswordRoute> {
                 break;
               case 1:
                 print("verifying password...");
-                if(passwordStorage.verify(textControllerOld.text)){
-                  print("Saving new password...");
-                  passwordStorage.storePassword(textControllerNew.text);
-                  print("Password saved.");
-                  Flushbar(
-                    title: "Success",
-                    message: "New password saved",
-                    duration: Duration(seconds: 5),
-                  )
-                    ..show(context);
-                }else{
-                  print("Password didn't match.");
-                  Flushbar(
-                    title: "Failed to change password",
-                    message: "Old password is not correct.",
-                    duration: Duration(seconds: 5),
-                  )
-                    ..show(context);
-                }
+                passwordStorage.verify(textControllerOld.text).then((check) {
+                  // check for first entry
+                  if (check == null){
+                    print("first login noticed");
+                    check = true;
+                  }
+                  if (check) {
+                    print("Saving new password...");
+                    passwordStorage.storePassword(textControllerNew.text);
+                    print("Password saved.");
+                    Flushbar(
+                      title: "Success",
+                      message: "New password saved",
+                      duration: Duration(seconds: 5),
+                    )
+                      ..show(context);
+                  }else{
+                    print("Password didn't match.");
+                    Flushbar(
+                      title: "Failed to change password",
+                      message: "Old password is not correct.",
+                      duration: Duration(seconds: 5),
+                    )
+                      ..show(context);
+                  }
+                });
                 break;
             }
           }

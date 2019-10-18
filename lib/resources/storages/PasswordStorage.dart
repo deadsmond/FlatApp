@@ -1,6 +1,7 @@
 import 'package:password/password.dart';
 import 'SecureStorage.dart';
 
+
 //==============================================================================
 // Class containing safe password storage and validation
 class PasswordStorage{
@@ -16,27 +17,22 @@ class PasswordStorage{
   // only the key (id of our key in Android KeyStore) to the storage is present
 
   // Store password
-  void storePassword(password){
+  void storePassword(password) async {
     // Never store password with plain text - use hash
-    storage.write(key, password);
+    storage.write(key, Password.hash(password, algorithm));
   }
 
-  //store:
-  // Password.hash(password, algorithm)
-  // read:
-  // Password.verify(password, hash)
-
   // Verify Password
-  bool verify(password){
+  Future<bool> verify(password) async {
     // get hash from storage and verify it
-    storage.readKey(key).then((value) {
-      print("passwd: $password\nvalue: $value");
-      print(password==value);
-      return password==value;
-    });
-    // REPAIR - due to the future nature of this function,
-    // this section will always be executed
-    return true;
+    final hash = await storage.readKey(key);
+    // if it is first check (no password applied)
+    if(hash == null){
+      // return empty object to raise the awareness
+      return null;
+    }else{
+      return Password.verify(password, hash);
+    }
   }
 }
 //==============================================================================

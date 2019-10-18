@@ -103,8 +103,8 @@ class _LoginRouteState extends State<LoginRoute> {
           // operate NavigationBar
           switch (index) {
             case 0:
-              // exit app - this is preferred way
-              //https://api.flutter.dev/flutter/services/SystemNavigator/pop.html
+            // exit app - this is preferred way
+            //https://api.flutter.dev/flutter/services/SystemNavigator/pop.html
               print("Exit app");
               SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               break;
@@ -112,24 +112,31 @@ class _LoginRouteState extends State<LoginRoute> {
               print("Attempted login");
               try {
                 // check password from controller
-                if (passwordStorage.verify(textController.text)) {
-                  print("Correct password, entry allowed.");
-                  // go to note route
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (buildContext) => FlatApp()
+                passwordStorage.verify(textController.text).then((check) {
+                  // check for first entry
+                  if (check == null){
+                    print("first login noticed");
+                    check = true;
+                  }
+                  if (check) {
+                    print("Correct password, entry allowed.");
+                    // go to note route
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (buildContext) => FlatApp()
+                      )
+                    );
+                  } else {
+                    print("Wrong password, entry denied.");
+                    Flushbar(
+                      title: "Error",
+                      message: "Wrong password. Please try again.",
+                      duration: Duration(seconds: 5),
                     )
-                  );
-                } else {
-                  print("Wrong password, entry denied.");
-                  Flushbar(
-                    title: "Error",
-                    message: "Wrong password. Please try again.",
-                    duration: Duration(seconds: 5),
-                  )
-                    ..show(context);
-                }
+                      ..show(context);
+                  }
+                });
               } catch (e){
                 // no password found:
                 // clear note file for security reasons
