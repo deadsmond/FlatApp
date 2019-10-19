@@ -4,6 +4,8 @@ import '../storages/ContentStorage.dart';
 import '../storages/PasswordStorage.dart';
 import 'PasswordRoute.dart';
 import 'package:flushbar/flushbar.dart';
+import 'dart:async';
+import 'dart:io';
 
 
 //==============================================================================
@@ -61,7 +63,7 @@ class _FlatAppMainState extends State<FlatApp> {
 
   //-------------------------- FILE CONTENT ------------------------------------
   // load content from file
-  void _loadContent(){
+  Future<File> _loadContent(){
     try {
       storageContent.readContent().then((String value) {
           setState(() {
@@ -77,12 +79,12 @@ class _FlatAppMainState extends State<FlatApp> {
   }
 
   // save content to file
-  void _saveContent() {
+  Future<File> _saveContent() {
     // save to content var
     _changeContent();
 
     // save content to file
-    storageContent.writeContent(_content);
+    return storageContent.writeContent(_content);
   }
 
   //---------------------------- MAIN WIDGET -----------------------------------

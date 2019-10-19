@@ -13,7 +13,6 @@ Current version:
 Incoming version:
 * v0.5: further debugging and processing improvement.
 
-
 ## Getting Started
 
 This project is a starting point for a Flutter application.

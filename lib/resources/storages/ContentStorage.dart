@@ -53,6 +53,7 @@ class ContentStorage {
       return file.writeAsString('$content');
     } catch (e) {
       // If encountering an error, return error
+      print("error occurred during writing content in Content Storage");
       return e;
     }
   }
