@@ -21,6 +21,14 @@ class _PasswordRouteState extends State<PasswordRoute> {
   // password storage object
   PasswordStorage passwordStorage = PasswordStorage();
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    textControllerOld.dispose();
+    textControllerNew.dispose();
+    super.dispose();
+  }
+
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
   Widget build(BuildContext context) {

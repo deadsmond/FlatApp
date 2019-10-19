@@ -4,13 +4,15 @@ Flutter example app, made for learning purposes, specifically security research.
 
 Previous versions:
 * v0.1: application can store 1 note in file note.txt, which is available only for FlatApp.
+* v0.2: password validation object is present but mostly inactive
+* v0.3: access to application is encrypted.
 
 Current version:
-* **v0.2**: password validation object is present but mostly inactive
+* **v0.4**: password can be changed in separate view.
 
 Incoming version:
-* v0.3: access to application is encrypted.
-* v0.4: password can be changed in separate view.
+* v0.5: further debugging and processing improvement.
+
 
 ## Getting Started
 
@@ -124,6 +126,51 @@ Simple password hashing code is presented in [password](https://pub.dev/packages
 
 ### On reading Future values
 
-Dart specific
+Dart utilizes specific form of asynchronous processing, called Future.
+Future objects allow application to work while their work is not finished.
 
+Reading Future\<String\> value results in returning "Instance of Future\<String>" response, 
+not actual content of variable, due to the asynchronicity thereof.  
+
+If the Future objects are being accessed too fast (before the Future happened), 
+application will fail to load them as `null` value would be returned 
+(as the object itself exists in the future).
+
+This can be prevented with example coding 
+([documentation](https://dart.dev/codelabs/async-await)):____
+
+```dart
+// use async library
+import 'dart:async';
+```
+```dart
+class A {
+  Future<int> getInt() {
+    return Future.value(10);
+  }
+}
+
+class B {
+  checkValue() async {
+    final val = await A().getInt();
+    print(val == 10 ? "yes" : "no");
+  }
+}
+```
+```dart
+void foo() async {
+  final user = await _fetchUserInfo(id);
+}
+
+Future someMethod() async {
+  String s = await someFuncThatReturnsFuture();
+}
+```
+```dart
+someMethod() {
+  someFuncTahtReturnsFuture().then((s) {
+    print(s);
+  });
+}
+```
 

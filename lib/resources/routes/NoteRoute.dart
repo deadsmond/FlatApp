@@ -17,7 +17,6 @@ class FlatApp extends StatefulWidget {
 class _FlatAppMainState extends State<FlatApp> {
 
   //---------------------------- VARIABLES -------------------------------------
-
   ContentStorage storageContent;
   PasswordStorage storagePassword;
 
@@ -39,10 +38,10 @@ class _FlatAppMainState extends State<FlatApp> {
     // entering text)
 
     // set listeners to refresh app
-    //textController.addListener(_loadContent);
+    // textController.addListener(_loadContent);
 
     // load content to _content var
-    _loadContent();
+    //_loadContent();
   }
 
   @override
@@ -70,22 +69,10 @@ class _FlatAppMainState extends State<FlatApp> {
               textController.text = _content;
             }
           );
-          Flushbar(
-            title: "Loaded",
-            message: "Content loaded successfully.",
-            duration: Duration(seconds: 5),
-          )
-            ..show(context);
         }
       );
     } catch (e){
       print("error during file loading\n$e");
-      Flushbar(
-        title: "Error",
-        message: "Error occurred while loading content",
-        duration: Duration(seconds: 5),
-      )
-        ..show(context);
     }
   }
 
@@ -156,6 +143,12 @@ class _FlatAppMainState extends State<FlatApp> {
           switch (index) {
             case 0:
               _loadContent();
+              Flushbar(
+                title: "Loaded",
+                message: "Content loaded successfully.",
+                duration: Duration(seconds: 5),
+              )
+                ..show(context);
               break;
             case 1:
               Navigator.push(

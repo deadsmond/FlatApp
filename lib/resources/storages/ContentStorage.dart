@@ -56,5 +56,17 @@ class ContentStorage {
       return e;
     }
   }
+
+  // clear file content - separate function for cleaner flow
+  Future<File> clear() async {
+    try {
+      final file = await _localFile;
+      // Write the file
+      return file.writeAsString('');
+    } catch (e) {
+      // If encountering an error, return error
+      return e;
+    }
+  }
 }
 //==============================================================================

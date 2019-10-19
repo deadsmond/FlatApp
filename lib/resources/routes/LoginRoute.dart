@@ -26,6 +26,13 @@ class _LoginRouteState extends State<LoginRoute> {
   // content storage object - for emergency cleanup only
   final ContentStorage storageContent = ContentStorage();
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    textController.dispose();
+    super.dispose();
+  }
+
   //---------------------------- DIALOG ----------------------------------------
   Future<void> _errorDialog() async {
     return showDialog<void>(
@@ -115,7 +122,9 @@ class _LoginRouteState extends State<LoginRoute> {
                 passwordStorage.verify(textController.text).then((check) {
                   // check for first entry
                   if (check == null){
-                    print("first login noticed");
+                    print("first login noticed\ncleared note cache...");
+                    // clear note file for security reasons
+                    storageContent.clear();
                     check = true;
                   }
                   if (check) {
@@ -138,10 +147,9 @@ class _LoginRouteState extends State<LoginRoute> {
                   }
                 });
               } catch (e){
-                // no password found:
                 // clear note file for security reasons
                 print("Error during login. Cleared note cache...");
-                storageContent.writeContent("");
+                storageContent.clear();
                 // what went wrong?
                 print(e);
                 // ask for new password
