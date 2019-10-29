@@ -121,6 +121,10 @@ Per [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) do
 
 Simple password hashing code is presented in [password](https://pub.dev/packages/password#-readme-tab-) package.
 
+## Fingerprint handling
+
+documentation of [local_auth](https://pub.dev/packages/local_auth)
+
 ## Debugging notes
 
 ### On reading Future values

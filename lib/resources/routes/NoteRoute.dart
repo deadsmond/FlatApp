@@ -63,7 +63,7 @@ class _FlatAppMainState extends State<FlatApp> {
 
   //-------------------------- FILE CONTENT ------------------------------------
   // load content from file
-  Future<File> _loadContent(){
+  void _loadContent(){
     try {
       storageContent.readContent().then((String value) {
           setState(() {
@@ -117,7 +117,7 @@ class _FlatAppMainState extends State<FlatApp> {
             ),
             TextField(
               keyboardType: TextInputType.multiline,
-              // add multiline textfield, with no max lines
+              // add multiline text field, with no max lines
               // (change null to value if needed)
               maxLines: null,
               controller: textController,
