@@ -4,24 +4,34 @@ import '../storages/ContentStorage.dart';
 import '../storages/PasswordStorage.dart';
 import 'PasswordRoute.dart';
 import 'package:flushbar/flushbar.dart';
-import 'dart:async';
-import 'dart:io';
 
 
 //==============================================================================
+//--------------------------- INITIALIZATION -----------------------------------
 // FlatApp class object, operating algorithms and behaviour
 class FlatApp extends StatefulWidget {
+  //---------------------------- VARIABLES -------------------------------------
+
+  // password storage object
+  final PasswordStorage passwordStorage;
+
+  // content storage object
+  final ContentStorage storageContent;
+
+  FlatApp({Key key,
+    @required this.passwordStorage,
+    @required this.storageContent
+  }) : super(key: key);
+
   @override
   _FlatAppMainState createState() => _FlatAppMainState();
 }
 
 //==============================================================================
+//---------------------------- WIDGET ------------------------------------------
 class _FlatAppMainState extends State<FlatApp> {
 
   //---------------------------- VARIABLES -------------------------------------
-  ContentStorage storageContent;
-  PasswordStorage storagePassword;
-
   // var to store text from notes
   String _content;
 
@@ -43,7 +53,7 @@ class _FlatAppMainState extends State<FlatApp> {
     // textController.addListener(_loadContent);
 
     // load content to _content var
-    //_loadContent();
+    _loadContent();
   }
 
   @override
@@ -55,7 +65,7 @@ class _FlatAppMainState extends State<FlatApp> {
   }
 
   // change content var, but not file
-  _changeContent() {
+  void _changeContent() {
     setState(() {
       _content = textController.text;
     });
@@ -65,10 +75,10 @@ class _FlatAppMainState extends State<FlatApp> {
   // load content from file
   void _loadContent(){
     try {
-      storageContent.readContent().then((String value) {
+      widget.storageContent.readContent().then((String value) {
           setState(() {
               _content = value;
-              textController.text = _content;
+              textController.text = value;
             }
           );
         }
@@ -79,12 +89,12 @@ class _FlatAppMainState extends State<FlatApp> {
   }
 
   // save content to file
-  Future<File> _saveContent() {
+  void _saveContent() {
     // save to content var
     _changeContent();
 
     // save content to file
-    return storageContent.writeContent(_content);
+    widget.storageContent.writeContent(_content);
   }
 
   //---------------------------- MAIN WIDGET -----------------------------------

@@ -6,6 +6,15 @@ import 'package:flutter/services.dart';
 //==============================================================================
 // FlatApp password view, operating password manipulation
 class PasswordRoute extends StatefulWidget {
+  //---------------------------- VARIABLES -------------------------------------
+
+  // password storage object
+  final PasswordStorage passwordStorage;
+
+  PasswordRoute({Key key,
+    @required this.passwordStorage
+  }) : super(key: key);
+
   @override
   _PasswordRouteState createState() => _PasswordRouteState();
 }
@@ -17,9 +26,6 @@ class _PasswordRouteState extends State<PasswordRoute> {
   // of the TextField.
   final textControllerOld = TextEditingController();
   final textControllerNew = TextEditingController();
-
-  // password storage object
-  PasswordStorage passwordStorage = PasswordStorage();
 
   @override
   void dispose() {
@@ -85,7 +91,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
                 break;
               case 1:
                 print("verifying password...");
-                passwordStorage.verify(textControllerOld.text).then((check) {
+                widget.passwordStorage.verify(textControllerOld.text).then((check) {
                   // check for first entry
                   if (check == null){
                     print("first login noticed");
@@ -93,7 +99,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
                   }
                   if (check) {
                     print("Saving new password...");
-                    passwordStorage.storePassword(textControllerNew.text);
+                    widget.passwordStorage.storePassword(textControllerNew.text);
                     print("Password saved.");
                     Flushbar(
                       title: "Success",

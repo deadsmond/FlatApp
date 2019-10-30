@@ -6,12 +6,13 @@ Previous versions:
 * v0.1: application can store 1 note in file note.txt, which is available only for FlatApp.
 * v0.2: password validation object is present but mostly inactive
 * v0.3: access to application is encrypted.
+* v0.4: password can be changed in separate view.
 
 Current version:
-* **v0.4**: password can be changed in separate view.
+* **v0.5**: further debugging and processing improvement.
 
 Incoming version:
-* v0.5: further debugging and processing improvement.
+* v0.6: fingerprint scan is required to log in.
 
 ## Getting Started
 
@@ -38,9 +39,10 @@ samples, guidance on mobile development, and a full API reference.
 
     Any additional packages should be implemented in **pubspec.yaml file** and installed as written above.
     
-## Design
-    
-FlatApp current minSdkVersion (Android level) is 18.
+## Design notes
+
+### Technical details
+FlatApp current min SDKVersion (Android level) is 18.
 
 App main colour is `HEX: 0197f8` or `RGBA: 1 151 248 100`.
 
@@ -48,6 +50,13 @@ Custom icons were created in [Android Asset Studio Launcher icon generator](http
 No custom icons for iOS are developed yet.
 
 New screens (or views) should be operated by Navigator as in [this example](https://flutter.dev/docs/cookbook/navigation/navigation-basics).
+
+### Routes
+
+FlatApp operates on views - every change on the screen (movement to another option) draws another view.
+Current views flow:
+
+    LoginRoute -> NoteRoute <-> PasswordRoute
 
 ## Files: read and write
 
@@ -140,7 +149,7 @@ application will fail to load them as `null` value would be returned
 (as the object itself exists in the future).
 
 This can be prevented with example coding 
-([documentation](https://dart.dev/codelabs/async-await)):____
+([documentation](https://dart.dev/codelabs/async-await)):
 
 ```dart
 // use async library

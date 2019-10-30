@@ -4,28 +4,37 @@ import 'package:flutter/services.dart';
 import '../storages/PasswordStorage.dart';
 import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
-import 'FingerprintRoute.dart';
+// import 'FingerprintRoute.dart';
 
 
 //==============================================================================
+//--------------------------- INITIALIZATION -----------------------------------
 // FlatApp login view, operating application access point
 class LoginRoute extends StatefulWidget {
+  //---------------------------- VARIABLES -------------------------------------
+
+  // password storage object - for validation purpose only
+  final PasswordStorage passwordStorage;
+
+  // content storage object - for emergency cleanup only
+  final ContentStorage storageContent;
+
+  LoginRoute({Key key,
+    @required this.passwordStorage,
+    @required this.storageContent
+  }) : super(key: key);
+
   @override
   _LoginRouteState createState() => _LoginRouteState();
 }
 
+//==============================================================================
+//---------------------------- WIDGET ------------------------------------------
 class _LoginRouteState extends State<LoginRoute> {
 
-  //---------------------------- VARIABLES -------------------------------------
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final textController = TextEditingController();
-
-  // password storage object - for validation purpose only
-  final PasswordStorage passwordStorage = PasswordStorage();
-
-  // content storage object - for emergency cleanup only
-  final ContentStorage storageContent = ContentStorage();
 
   @override
   void dispose() {
@@ -66,7 +75,7 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  //---------------------------- MAIN WIDGET -----------------------------------
+  //---------------------------- MAIN ------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,13 +129,14 @@ class _LoginRouteState extends State<LoginRoute> {
               print("Attempted login");
               try {
                 // check password from controller
-                passwordStorage.verify(textController.text).then((check) {
+                widget.passwordStorage.verify(textController.text).then((check) {
                   // check for first entry
                   if (check == null){
                     print("first login noticed\ncleared note cache...");
                     // clear note file for security reasons
-                    storageContent.clear();
+                    widget.storageContent.clear();
                     check = true;
+                    _errorDialog();
                   }
                   if (check) {
                     print("Correct password, entry allowed.");
@@ -134,8 +144,11 @@ class _LoginRouteState extends State<LoginRoute> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          // builder: (buildContext) => FingerprintRoute()
-                        builder: (buildContext) => FlatApp()
+                        //builder: (buildContext) => FingerprintRoute(storageContent: widget.storageContent)
+                        builder: (buildContext) => FlatApp(
+                            passwordStorage: PasswordStorage(),
+                            storageContent: ContentStorage()
+                        )
                       )
                     );
                   } else {
@@ -151,7 +164,7 @@ class _LoginRouteState extends State<LoginRoute> {
               } catch (e){
                 // clear note file for security reasons
                 print("Error during login. Cleared note cache...");
-                storageContent.clear();
+                widget.storageContent.clear();
                 // what went wrong?
                 print(e);
                 // ask for new password
@@ -160,7 +173,10 @@ class _LoginRouteState extends State<LoginRoute> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (buildContext) => FlatApp()
+                      builder: (buildContext) => FlatApp(
+                          passwordStorage: PasswordStorage(),
+                          storageContent: ContentStorage()
+                      )
                   )
                 );
               }
