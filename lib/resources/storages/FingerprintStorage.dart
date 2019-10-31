@@ -6,9 +6,11 @@ import 'package:flutter/services.dart';
 // Class containing fingerprint manipulation procedures
 class FingerprintStorage {
   //---------------------------- VARIABLES -------------------------------------
+  // local auth object to control access methods
   final _auth = LocalAuthentication();
 
-  //---------------------------- FINGERPRINT ---------------------------------
+  //---------------------------- FINGERPRINT -----------------------------------
+  // Check if biometrics are supported
   Future<bool> getBiometricsSupport() async {
     try {
       bool _hasFingerPrintSupport = await _auth.canCheckBiometrics;
@@ -18,8 +20,9 @@ class FingerprintStorage {
     }
   }
 
+  // Method to fetch all the available biometric supports of the device.
+  // Currently unused.
   Future<List> getAvailableSupport() async {
-    // 7. this method fetches all the available biometric supports of the device
     List<BiometricType> availableBiometricType = List<BiometricType>();
     try {
       availableBiometricType = await _auth.getAvailableBiometrics();
@@ -29,13 +32,11 @@ class FingerprintStorage {
     }
   }
 
+  // main authorization
   Future<bool> authorizeAccess() async {
     print("Attempted fingerprint login");
     try {
-      bool _hasFingerPrintSupport = false;
-      getBiometricsSupport().then((value){
-        _hasFingerPrintSupport = value;
-      });
+      bool _hasFingerPrintSupport = await getBiometricsSupport();
       if(_hasFingerPrintSupport){
           // this method opens a dialog for fingerprint authentication.
           // we do not need to create a dialog nut it popup from device natively.
