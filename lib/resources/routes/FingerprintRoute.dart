@@ -82,28 +82,28 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
-                  fingerprintStorage.verifyFingerprint().then((check) {
-                      if (check) {
-                        print("Correct fingerprint, entry allowed.");
-                        // go to note route
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (buildContext) => FlatApp(
-                                    passwordStorage: PasswordStorage(),
-                                    storageContent: ContentStorage()
-                                )
-                            )
-                        );
-                      } else {
-                        print("Wrong fingerprint, entry denied.");
-                        Flushbar(
-                          title: "Error",
-                          message: "Wrong fingerprint. Please try again.",
-                          duration: Duration(seconds: 5),
+                  fingerprintStorage.authorizeAccess().then((check) {
+                    if (check) {
+                      print("Correct fingerprint, entry allowed.");
+                      // go to note route
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (buildContext) => FlatApp(
+                            passwordStorage: PasswordStorage(),
+                            storageContent: ContentStorage()
+                          )
                         )
-                          ..show(context);
-                      }
+                      );
+                    } else {
+                      print("Wrong fingerprint, entry denied.");
+                      Flushbar(
+                        title: "Error",
+                        message: "Wrong fingerprint. Please try again.",
+                        duration: Duration(seconds: 5),
+                      )
+                      ..show(context);
+                    }
                   });
                   } catch (e) {
                     // clear note file for security reasons
@@ -113,13 +113,13 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                     print(e);
                     // go to note route
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (buildContext) => FlatApp(
-                                passwordStorage: PasswordStorage(),
-                                storageContent: ContentStorage()
-                            )
+                      context,
+                      MaterialPageRoute(
+                        builder: (buildContext) => FlatApp(
+                          passwordStorage: PasswordStorage(),
+                          storageContent: ContentStorage()
                         )
+                      )
                     );
                   }
                 break;
