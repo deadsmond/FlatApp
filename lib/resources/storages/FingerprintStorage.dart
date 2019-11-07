@@ -11,7 +11,7 @@ class FingerprintStorage {
 
   //---------------------------- FINGERPRINT -----------------------------------
   // Check if biometrics are supported
-  Future<bool> getBiometricsSupport() async {
+  Future<bool> _getBiometricsSupport() async {
     try {
       bool _hasFingerPrintSupport = await _auth.canCheckBiometrics;
       return _hasFingerPrintSupport;
@@ -22,7 +22,8 @@ class FingerprintStorage {
 
   // Method to fetch all the available biometric supports of the device.
   // Currently unused.
-  Future<List> getAvailableSupport() async {
+  /*
+  Future<List> _getAvailableSupport() async {
     List<BiometricType> availableBiometricType = List<BiometricType>();
     try {
       availableBiometricType = await _auth.getAvailableBiometrics();
@@ -30,13 +31,13 @@ class FingerprintStorage {
     } catch (e) {
       throw e;
     }
-  }
+  }*/
 
   // main authorization
   Future<bool> authorizeAccess() async {
     print("Attempted fingerprint login");
     try {
-      bool _hasFingerPrintSupport = await getBiometricsSupport();
+      bool _hasFingerPrintSupport = await _getBiometricsSupport();
       if(_hasFingerPrintSupport){
           // this method opens a dialog for fingerprint authentication.
           // we do not need to create a dialog nut it popup from device natively.

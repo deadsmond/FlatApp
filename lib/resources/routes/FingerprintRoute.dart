@@ -29,10 +29,8 @@ class FingerprintRoute extends StatefulWidget {
 class _FingerprintRouteState extends State<FingerprintRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
-  // content storage object - for emergency cleanup only
-  final ContentStorage storageContent = ContentStorage();
 
-  final FingerprintStorage fingerprintStorage = FingerprintStorage();
+  final FingerprintStorage _fingerprintStorage = FingerprintStorage();
 
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
@@ -82,7 +80,7 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
-                  fingerprintStorage.authorizeAccess().then((check) {
+                  _fingerprintStorage.authorizeAccess().then((check) {
                     if (check) {
                       print("Correct fingerprint, entry allowed.");
                       // go to note route
@@ -108,7 +106,7 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                   } catch (e) {
                     // clear note file for security reasons
                     print("Error during login. Cleared note cache...");
-                    storageContent.clear();
+                    widget.storageContent.clear();
                     // what went wrong?
                     print(e);
                     // go to note route

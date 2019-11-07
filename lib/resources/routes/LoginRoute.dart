@@ -34,12 +34,12 @@ class _LoginRouteState extends State<LoginRoute> {
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final textController = TextEditingController();
+  final _textController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
-    textController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -97,7 +97,7 @@ class _LoginRouteState extends State<LoginRoute> {
               'Please enter password:',
             ),
             TextField(
-              controller: textController,
+              controller: _textController,
               // hide text input (replace it with dots)
               obscureText: true,
             ),
@@ -129,7 +129,7 @@ class _LoginRouteState extends State<LoginRoute> {
               print("Attempted login");
               try {
                 // check password from controller
-                widget.passwordStorage.verify(textController.text).then((check) {
+                widget.passwordStorage.verify(_textController.text).then((check) {
                   // check for first entry
                   if (check == null){
                     print("first login noticed\ncleared note cache...");

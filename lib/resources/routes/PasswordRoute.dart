@@ -24,14 +24,14 @@ class _PasswordRouteState extends State<PasswordRoute> {
   //---------------------------- VARIABLES -------------------------------------
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final textControllerOld = TextEditingController();
-  final textControllerNew = TextEditingController();
+  final _textControllerOld = TextEditingController();
+  final _textControllerNew = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
-    textControllerOld.dispose();
-    textControllerNew.dispose();
+    _textControllerOld.dispose();
+    _textControllerNew.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
               'Please enter old password:',
             ),
             TextField(
-              controller: textControllerOld,
+              controller: _textControllerOld,
               // hide text input (replace it with dots)
               obscureText: true,
             ),
@@ -65,7 +65,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
               'Please enter new password:',
             ),
             TextField(
-              controller: textControllerNew,
+              controller: _textControllerNew,
               // hide text input (replace it with dots)
               obscureText: true,
             ),
@@ -91,7 +91,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
                 break;
               case 1:
                 print("verifying password...");
-                widget.passwordStorage.verify(textControllerOld.text).then((check) {
+                widget.passwordStorage.verify(_textControllerOld.text).then((check) {
                   // check for first entry
                   if (check == null){
                     print("first login noticed");
@@ -99,7 +99,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
                   }
                   if (check) {
                     print("Saving new password...");
-                    widget.passwordStorage.storePassword(textControllerNew.text);
+                    widget.passwordStorage.storePassword(_textControllerNew.text);
                     print("Password saved.");
                     Flushbar(
                       title: "Success",

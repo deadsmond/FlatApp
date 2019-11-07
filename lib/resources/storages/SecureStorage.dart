@@ -6,13 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorage{
 
   // Create storage
-  final storage = new FlutterSecureStorage();
+  final _storage = new FlutterSecureStorage();
 
   // Read key value - REPAIR - NEEDS TO RETURN STRING, NOT FUTURE STRING
   Future<String> readKey(key) async {
     try {
       // Read value
-      String value = await storage.read(key: key);
+      String value = await _storage.read(key: key);
       return value;
 
     } catch (e) {
@@ -21,19 +21,9 @@ class SecureStorage{
     }
   }
 
-  // Delete value
-  void deleteKey(key) async {
-    await storage.delete(key: key);
-  }
-
-  // Delete all
-  void deleteAll() async {
-    await storage.deleteAll();
-  }
-
   // Write value
   void write(key, value) async {
-    await storage.write(key: key, value: value);
+    await _storage.write(key: key, value: value);
   }
 }
 //==============================================================================

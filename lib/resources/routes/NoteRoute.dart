@@ -37,7 +37,7 @@ class _FlatAppMainState extends State<FlatApp> {
 
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final textController = TextEditingController();
+  final _textController = TextEditingController();
 
   //--------------------------- INITIALIZATION ---------------------------------
   // application init
@@ -60,14 +60,14 @@ class _FlatAppMainState extends State<FlatApp> {
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     // This also removes the listeners.
-    textController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
   // change content var, but not file
   void _changeContent() {
     setState(() {
-      _content = textController.text;
+      _content = _textController.text;
     });
   }
 
@@ -78,7 +78,7 @@ class _FlatAppMainState extends State<FlatApp> {
       widget.storageContent.readContent().then((String value) {
           setState(() {
               _content = value;
-              textController.text = value;
+              _textController.text = value;
             }
           );
         }
@@ -130,7 +130,7 @@ class _FlatAppMainState extends State<FlatApp> {
               // add multiline text field, with no max lines
               // (change null to value if needed)
               maxLines: null,
-              controller: textController,
+              controller: _textController,
             ),
           ],
         ),
@@ -165,7 +165,10 @@ class _FlatAppMainState extends State<FlatApp> {
             case 1:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PasswordRoute()),
+                MaterialPageRoute(builder: (context) => PasswordRoute(
+                    passwordStorage: PasswordStorage()
+                  )
+                ),
               );
               break;
             case 2:
