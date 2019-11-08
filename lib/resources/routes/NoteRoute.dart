@@ -113,26 +113,30 @@ class _FlatAppMainState extends State<FlatApp> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Note content:',
-            ),
-            Text(
-              '$_content',
-              softWrap: true,
-            ),
-            Text(
-              'Edit note:',
-            ),
-            TextField(
-              keyboardType: TextInputType.multiline,
-              // add multiline text field, with no max lines
-              // (change null to value if needed)
-              maxLines: null,
-              controller: _textController,
-            ),
-          ],
+        child: new SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          reverse: true,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Note content:',
+              ),
+              Text(
+                '$_content',
+                softWrap: true,
+              ),
+              Text(
+                'Edit note:',
+              ),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                // add multiline text field, with no max lines
+                // (change null to value if needed)
+                maxLines: null,
+                controller: _textController,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
