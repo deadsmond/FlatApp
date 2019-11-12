@@ -109,6 +109,8 @@ FlatApp does it via PasswordStorage and SecureStorage objects.
 ###Encryption details
 Per [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) documentation:
 
+> AES encryption (of content - red.) is used for Android. AES secret key is encrypted with RSA and RSA key is stored in KeyStore
+
 **Defaults**
 
 > In almost cases, you should rely on default PRNG for salts. 
