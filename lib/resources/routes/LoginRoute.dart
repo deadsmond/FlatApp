@@ -129,16 +129,16 @@ class _LoginRouteState extends State<LoginRoute> {
               print("Attempted login");
               try {
                 // check password from controller
-                widget.passwordStorage.verify(_textController.text).then((check) {
+                widget.passwordStorage.verify(_textController.text).then((_check) {
                   // check for first entry
-                  if (check == null){
+                  if (_check == null){
                     print("first login noticed\ncleared note cache...");
                     // clear note file for security reasons
                     widget.storageContent.clear();
-                    check = true;
+                    _check = true;
                     _errorDialog();
                   }
-                  if (check) {
+                  if (_check) {
                     print("Correct password, entry allowed.");
                     // go to note route
                     Navigator.pushReplacement(
