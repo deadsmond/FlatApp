@@ -87,11 +87,14 @@ class _PasswordRouteState extends State<PasswordRoute> {
             // operate NavigationBar
             switch (index) {
               case 0:
+                // NOTE ROUTE --------------------------------------------------
                 Navigator.pop(context);
                 break;
               case 1:
+                // CHANGE PASSWORD ---------------------------------------------
                 print("verifying password...");
-                widget.passwordStorage.verify(_textControllerOld.text).then((check) {
+                widget.passwordStorage.verify(
+                    _textControllerOld.text).then((check) {
                   // check for first entry
                   if (check == null){
                     print("first login noticed");
@@ -99,7 +102,8 @@ class _PasswordRouteState extends State<PasswordRoute> {
                   }
                   if (check) {
                     print("Saving new password...");
-                    widget.passwordStorage.storePassword(_textControllerNew.text);
+                    widget.passwordStorage.storePassword(
+                        _textControllerNew.text);
                     print("Password saved.");
                     Flushbar(
                       title: "Success",
@@ -118,6 +122,7 @@ class _PasswordRouteState extends State<PasswordRoute> {
                   }
                 });
                 break;
+            // -----------------------------------------------------------------
             }
           }
       ),

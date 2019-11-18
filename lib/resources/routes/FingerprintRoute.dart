@@ -29,7 +29,6 @@ class FingerprintRoute extends StatefulWidget {
 class _FingerprintRouteState extends State<FingerprintRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
-
   final FingerprintStorage _fingerprintStorage = FingerprintStorage();
 
   //---------------------------- MAIN WIDGET -----------------------------------

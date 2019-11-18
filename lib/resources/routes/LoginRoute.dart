@@ -120,12 +120,14 @@ class _LoginRouteState extends State<LoginRoute> {
           // operate NavigationBar
           switch (index) {
             case 0:
+            // EXIT ------------------------------------------------------------
             // exit app - this is preferred way
             //https://api.flutter.dev/flutter/services/SystemNavigator/pop.html
               print("Exit app");
               SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               break;
             case 1:
+              // LOGIN ---------------------------------------------------------
               print("Attempted login");
               try {
                 // check password from controller
@@ -181,6 +183,7 @@ class _LoginRouteState extends State<LoginRoute> {
                 );
               }
               break;
+          // -------------------------------------------------------------------
           }
         }
       ),

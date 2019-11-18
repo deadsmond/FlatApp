@@ -158,6 +158,7 @@ class _FlatAppMainState extends State<FlatApp> {
           // operate NavigationBar
           switch (index) {
             case 0:
+              // LOAD CONTENT --------------------------------------------------
               _loadContent();
               Flushbar(
                 title: "Loaded",
@@ -167,6 +168,7 @@ class _FlatAppMainState extends State<FlatApp> {
                 ..show(context);
               break;
             case 1:
+            // PASSWORD ROUTE --------------------------------------------------
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => PasswordRoute(
@@ -176,6 +178,7 @@ class _FlatAppMainState extends State<FlatApp> {
               );
               break;
             case 2:
+              // SAVE CONTENT --------------------------------------------------
               _saveContent();
               Flushbar(
                 title: "Saved",
@@ -184,6 +187,7 @@ class _FlatAppMainState extends State<FlatApp> {
               )
                 ..show(context);
               break;
+          // -------------------------------------------------------------------
           }
         }
       ),
