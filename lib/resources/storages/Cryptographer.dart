@@ -25,7 +25,7 @@ class Cryptographer{
   }
 
   // plain text -> code
-  String encrypt(_text){
+  String encrypt(String _text){
     return _encrypter.encrypt(_text, iv: _iv).toString();
   }
 
