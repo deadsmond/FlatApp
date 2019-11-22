@@ -45,13 +45,6 @@ class _FlatAppMainState extends State<FlatApp> {
   void initState() {
     super.initState();
 
-    // REPAIR THIS SECTION - overuse of _loadContent causes app to crash
-    // text field controller (move cursor to the first letter and do not allow
-    // entering text)
-
-    // set listeners to refresh app
-    // textController.addListener(_loadContent);
-
     // load content to _content var
     _loadContent();
   }

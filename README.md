@@ -71,7 +71,7 @@ Reading and writing data should be asynchronous according to [this manual](https
 
 [On safe storage](https://developer.android.com/guide/topics/data/data-storage.html#filesInternal):
 
-> **Internal storage (currently used in FlatApp)**
+> **Internal storage (not used in FlatApp)**
 
 > By default, files saved to the internal storage are private to your app, and other apps cannot access them 
 > (nor can the user, unless they have root access). This makes internal storage a good place for internal app data 
@@ -91,9 +91,9 @@ Reading and writing data should be asynchronous according to [this manual](https
 > To read and write files on external storage in a more secure way, consider using the Security library, 
 > which provides the EncryptedFile class.
 
-Internal storage in FlatApp is being operated via ContentStorage object.
-    
-Password should be stored and read from Android KeyStore System 
+Internal storage in FlatApp was being operated via ContentStorage object in previous versions.
+Now password and note should be stored and read from Secure Storage. 
+The key to encrypt these contents is stored in AKSS:
 ([source](https://academy.realm.io/posts/secure-storage-in-android-san-francisco-android-meetup-2017-najafzadeh/)):
     
 > The conclusion is that there is no safe place to store data on disk. You can use encryption to prevent an attacker 
