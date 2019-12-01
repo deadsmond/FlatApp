@@ -36,7 +36,7 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FlatApp: login page'),
+        title: Text('FlatApp: fingerprint page'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.close),
@@ -79,46 +79,45 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
-                  _fingerprintStorage.authorizeAccess().then((check) {
-                    if (check) {
-                      print("Correct fingerprint, entry allowed.");
-                      // go to note route
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (buildContext) => FlatApp(
-                            passwordStorage: PasswordStorage(),
-                            storageContent: ContentStorage()
-                          )
-                        )
-                      );
-                    } else {
-                      print("Wrong fingerprint, entry denied.");
-                      Flushbar(
-                        title: "Error",
-                        message: "Wrong fingerprint. Please try again.",
-                        duration: Duration(seconds: 5),
-                      )
-                      ..show(context);
-                    }
-                  });
-                  } catch (e) {
-                    // clear note file for security reasons
-                    print("Error during login. Cleared note cache...");
-                    widget.storageContent.clear();
-                    // what went wrong?
-                    print(e);
+                  if (_fingerprintStorage.authorizeAccess()) {
+                    print("Correct fingerprint, entry allowed.");
                     // go to note route
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (buildContext) => FlatApp(
                           passwordStorage: PasswordStorage(),
-                          storageContent: ContentStorage()
+                          storageContent: widget.storageContent
                         )
                       )
                     );
+                  } else {
+                    print("Wrong fingerprint, entry denied.");
+                    Flushbar(
+                      title: "Error",
+                      message: "Wrong fingerprint. Please try again.",
+                      duration: Duration(seconds: 5),
+                    )
+                    ..show(context);
                   }
+                } catch (e) {
+                  // clear note file for security reasons
+                  print("Error during fingerprint scan. "
+                      "Cleared note cache...");
+                  widget.storageContent.clear();
+                  // what went wrong?
+                  print(e);
+                  // go to note route
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (buildContext) => FlatApp(
+                        passwordStorage: PasswordStorage(),
+                        storageContent: ContentStorage()
+                      )
+                    )
+                  );
+                }
                 break;
             }
           }

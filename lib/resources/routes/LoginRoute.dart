@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../storages/PasswordStorage.dart';
 import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
-// import 'FingerprintRoute.dart';
+import 'FingerprintRoute.dart';
 
 
 //==============================================================================
@@ -146,10 +146,8 @@ class _LoginRouteState extends State<LoginRoute> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        //builder: (buildContext) => FingerprintRoute(storageContent: widget.storageContent)
-                        builder: (buildContext) => FlatApp(
-                            passwordStorage: PasswordStorage(),
-                            storageContent: ContentStorage()
+                        builder: (buildContext) => FingerprintRoute(
+                            storageContent: widget.storageContent
                         )
                       )
                     );

@@ -7,12 +7,14 @@ Previous versions:
 * v0.2: password validation object is present but mostly inactive
 * v0.3: access to application is encrypted.
 * v0.4: password can be changed in separate view.
+* v0.5: further debugging and processing improvement.
 
 Current version:
-* **v0.5**: further debugging and processing improvement.
+* **v0.6:** fingerprint scan is required to log in.
 
 Incoming version:
-* v0.6: fingerprint scan is required to log in.
+* v0.7: further debugging and processing improvement.
+
 
 ## Getting Started
 
