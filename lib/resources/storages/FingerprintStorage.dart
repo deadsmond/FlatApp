@@ -34,14 +34,11 @@ class FingerprintStorage {
   }
 
   Future<bool> _authenticateFingerprint() async {
-    print("finger check");
-    bool check;
-    check = await _auth.authenticateWithBiometrics(
+    return await _auth.authenticateWithBiometrics(
       localizedReason: 'Please authenticate yourself',
       useErrorDialogs: true,
       stickyAuth: true,
     );
-    return check;
   }
 
   // main authorization
@@ -50,12 +47,10 @@ class FingerprintStorage {
     try {
       _getBiometricsSupport().then((check){
         if(check){
-          print("scan");
+          print("scanning...");
           // this method opens a dialog for fingerprint authentication.
           // we do not need to create a dialog but it popup from device natively.
           _authenticateFingerprint().then((check){
-              print("hmmm");
-              print(check);
               if(check){
                 print("correct fingerprint");
                 return true;
