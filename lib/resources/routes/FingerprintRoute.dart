@@ -79,27 +79,30 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
-                  if (_fingerprintStorage.authorizeAccess()) {
-                    print("Correct fingerprint, entry allowed.");
-                    // go to note route
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (buildContext) => FlatApp(
-                          passwordStorage: PasswordStorage(),
-                          storageContent: widget.storageContent
-                        )
+                  print("trying fingerprint...");
+                  _fingerprintStorage.authorizeAccess().then((check){
+                    if (check) {
+                      print("Correct fingerprint, entry allowed.");
+                      // go to note route
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (buildContext) => FlatApp(
+                                  passwordStorage: PasswordStorage(),
+                                  storageContent: widget.storageContent
+                              )
+                          )
+                      );
+                    } else {
+                      print("Wrong fingerprint, entry denied.");
+                      Flushbar(
+                        title: "Error",
+                        message: "Wrong fingerprint. Please try again.",
+                        duration: Duration(seconds: 5),
                       )
-                    );
-                  } else {
-                    print("Wrong fingerprint, entry denied.");
-                    Flushbar(
-                      title: "Error",
-                      message: "Wrong fingerprint. Please try again.",
-                      duration: Duration(seconds: 5),
-                    )
-                    ..show(context);
-                  }
+                        ..show(context);
+                    }
+                  });
                 } catch (e) {
                   // clear note file for security reasons
                   print("Error during fingerprint scan. "
