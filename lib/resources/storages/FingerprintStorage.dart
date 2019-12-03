@@ -42,7 +42,7 @@ class FingerprintStorage {
   }
 
   // main authorization
-  Future<bool> authorizeAccess() async{
+  Future<bool> authorizeAccess() async {
     print("Attempted fingerprint login");
     try {
       bool check;
@@ -51,14 +51,7 @@ class FingerprintStorage {
         print("scanning...");
         // this method opens a dialog for fingerprint authentication.
         // we do not need to create a dialog but it popup from device natively.
-        check = await _authenticateFingerprint();
-        if(check){
-          print("correct fingerprint");
-          return true;
-        }else{
-          print("wrong fingerprint");
-          return false;
-        }
+        return await _authenticateFingerprint();
       }else{
         print("biometrics not supported");
         return false;

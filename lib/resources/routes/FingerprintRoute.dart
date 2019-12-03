@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
 import '../storages/FingerprintStorage.dart';
 import '../storages/PasswordStorage.dart';
@@ -80,8 +79,8 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                 // check password from controller
                 try {
                   print("trying fingerprint...");
-                  _fingerprintStorage.authorizeAccess().then((check){
-                    if (check) {
+                  _fingerprintStorage.authorizeAccess().then((_check){
+                    if (_check) {
                       print("Correct fingerprint, entry allowed.");
                       // go to note route
                       Navigator.pushReplacement(
@@ -93,14 +92,6 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                               )
                           )
                       );
-                    } else {
-                      print("Wrong fingerprint, entry denied.");
-                      Flushbar(
-                        title: "Error",
-                        message: "Wrong fingerprint. Please try again.",
-                        duration: Duration(seconds: 5),
-                      )
-                        ..show(context);
                     }
                   });
                 } catch (e) {
