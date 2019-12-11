@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
 import '../storages/PasswordStorage.dart';
+import '../storages/ContentStorage.dart';
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //==============================================================================
 // FlatApp password view, operating password manipulation
@@ -27,12 +30,36 @@ class _PasswordRouteState extends State<PasswordRoute> {
   final _textControllerOld = TextEditingController();
   final _textControllerNew = TextEditingController();
 
+  ContentStorage _storage = ContentStorage();
+  int _radioValue = -1;
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the widget tree.
     _textControllerOld.dispose();
     _textControllerNew.dispose();
     super.dispose();
+  }
+
+  void _handleRadioValueChange(int value) {
+    setState(() {
+      _radioValue = value;
+
+      switch (_radioValue) {
+        case 1:
+          _storage.writeContent('authentication', 'password');
+          print(_storage.readContent('authentication'));
+          Fluttertoast.showToast(msg: 'Set authentication to password',
+              toastLength: Toast.LENGTH_SHORT);
+          break;
+        case 2:
+          ContentStorage _storage = ContentStorage();
+          _storage.writeContent('authentication', 'fingerprint');
+          Fluttertoast.showToast(msg: 'Set authentication to fingerprint',
+              toastLength: Toast.LENGTH_SHORT);
+          break;
+      }
+    });
   }
 
   //---------------------------- MAIN WIDGET -----------------------------------
@@ -69,8 +96,28 @@ class _PasswordRouteState extends State<PasswordRoute> {
               // hide text input (replace it with dots)
               obscureText: true,
             ),
-          ],
-        ),
+              new Radio(
+                value: 1,
+                groupValue: _radioValue,
+                onChanged: _handleRadioValueChange,
+              ),
+              new Text(
+                'Password',
+                style: new TextStyle(
+                  fontSize: 16.0,
+                ),
+              ),
+              new Radio(
+                value: 2,
+                groupValue: _radioValue,
+                onChanged: _handleRadioValueChange,
+              ),
+              new Text(
+                'Fingerprint',
+                style: new TextStyle(fontSize: 16.0),
+              ),
+            ],
+          ),
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[

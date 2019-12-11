@@ -9,22 +9,14 @@ class ContentStorage {
   // Initialize storage access
   static final _storage = new SecureStorage();
 
-  static const _key = "FlatAppContentKey";
-
   // read some data from the file
-  Future<String> readContent() async {
+  Future<String> readContent(String _key) async {
     // get content from storage
-    final contents = await _storage.readKey(_key);
-    if(contents == null){
-      // return empty object to raise the awareness
-      return null;
-    }else{
-      return contents;
-    }
+    return await _storage.readKey(_key);
   }
 
   // write some data to the file
-  Future<void> writeContent(String content) async {
+  Future<void> writeContent(String _key, String content) async {
     try {
       _storage.write(_key, content);
     } catch (e) {
@@ -35,9 +27,9 @@ class ContentStorage {
   }
 
   // clear file content - separate function for cleaner flow
-  Future<void> clear() async {
+  Future<void> clear(String _key) async {
     try {
-      writeContent('');
+      writeContent(_key, '');
     } catch (e) {
       // If encountering an error, return error
       return e;

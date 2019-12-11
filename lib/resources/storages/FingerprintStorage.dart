@@ -42,20 +42,33 @@ class FingerprintStorage {
   }
 
   // main authorization
-  Future<bool> authorizeAccess() async {
+  bool authorizeAccess() {
     print("Attempted fingerprint login");
     try {
-      bool check;
-      check = await _getBiometricsSupport();
-      if(check){
-        print("scanning...");
-        // this method opens a dialog for fingerprint authentication.
-        // we do not need to create a dialog but it popup from device natively.
-        return await _authenticateFingerprint();
-      }else{
-        print("biometrics not supported");
-        return false;
-      }
+      _getBiometricsSupport().then((check){
+        if(check){
+          print("scanning...");
+          // this method opens a dialog for fingerprint authentication.
+          // we do not need to create a dialog but it popup from device natively.
+          _authenticateFingerprint().then((check){
+              if(check){
+                print("correct fingerprint");
+                return true;
+              }else{
+                print("wrong fingerprint");
+                return false;
+              }
+            }
+          );
+          print("workflow error 1");
+          return false;
+        }else{
+          print("biometrics not supported");
+          return false;
+        }
+      });
+      print("workflow error 2");
+      return false;
     } on PlatformException catch (e) {
       if (e.code == auth_error.notAvailable) {
         // The device does not have fingerprint or Touch ID
