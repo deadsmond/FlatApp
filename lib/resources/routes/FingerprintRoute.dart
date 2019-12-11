@@ -81,55 +81,48 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                 try {
                   widget.storageContent.readContent('authentication').then((_value) {
                     if(_value == 'fingerprint'){
-                      if (_fingerprintStorage.authorizeAccess()) {
-                        print("Correct fingerprint, entry allowed.");
-                        // go to note route
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (buildContext) => FlatApp(
-                              passwordStorage: PasswordStorage(),
-                              storageContent: widget.storageContent
-                            )
+                      print("trying fingerprint...");
+                      _fingerprintStorage.authorizeAccess().then((_check){
+                        if(_check){
+                          print("Correct fingerprint, entry allowed.");
+                          // go to note route
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (buildContext) => FlatApp(
+                                      passwordStorage: PasswordStorage(),
+                                      storageContent: widget.storageContent
+                                  )
+                              )
+                          );
+                        } else {
+                          print("Wrong fingerprint, entry denied.");
+                          Flushbar(
+                            title: "Error",
+                            message: "Wrong fingerprint. Please try again.",
+                            duration: Duration(seconds: 5),
                           )
-                        );
-                      } else {
-                        print("Wrong fingerprint, entry denied.");
-                        Flushbar(
-                          title: "Error",
-                          message: "Wrong fingerprint. Please try again.",
-                          duration: Duration(seconds: 5),
-                        )
-                        ..show(context);
-                      }
+                            ..show(context);
+                        }
+                      });
                     }else{
                       if(_value == 'password') {
                         print('Password is set as authentication');
-                        // go to fingerprint route
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (buildContext) =>
-                                    FingerprintRoute(
-                                        storageContent: widget.storageContent
-                                    )
-                            )
-                        );
                       }else{
                         // clear note file for security reasons
                         print("Error during login. Cleared note cache...");
                         widget.storageContent.clear('note_content');
-                        // go to note route
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (buildContext) => FlatApp(
-                                    passwordStorage: PasswordStorage(),
-                                    storageContent: ContentStorage()
-                                )
-                            )
-                        );
                       }
+                      // go to note route
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (buildContext) => FlatApp(
+                                  passwordStorage: PasswordStorage(),
+                                  storageContent: ContentStorage()
+                              )
+                          )
+                      );
                     }
                   });
                 } catch (e) {

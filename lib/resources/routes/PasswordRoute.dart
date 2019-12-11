@@ -31,7 +31,13 @@ class _PasswordRouteState extends State<PasswordRoute> {
   final _textControllerNew = TextEditingController();
 
   ContentStorage _storage = ContentStorage();
-  int _radioValue = -1;
+  int _radioValue = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    updateRadio();
+  }
 
   @override
   void dispose() {
@@ -39,6 +45,18 @@ class _PasswordRouteState extends State<PasswordRoute> {
     _textControllerOld.dispose();
     _textControllerNew.dispose();
     super.dispose();
+  }
+
+  void updateRadio(){
+    _storage.readContent('authentication').then((_choice){
+      setState(() {
+        if(_choice == 'password'){
+          _radioValue = 1;
+        }else if(_choice == 'fingerprint'){
+          _radioValue = 2;
+        }
+      });
+    });
   }
 
   void _handleRadioValueChange(int value) {
@@ -123,11 +141,11 @@ class _PasswordRouteState extends State<PasswordRoute> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.note),
-              title: Text('Note'),
+              title: Text('Back to Note'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.save),
-              title: Text('Save'),
+              title: Text('Save password'),
             ),
           ],
           onTap: (index) {
