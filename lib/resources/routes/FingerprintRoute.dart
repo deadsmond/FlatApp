@@ -5,6 +5,7 @@ import '../storages/FingerprintStorage.dart';
 import '../storages/PasswordStorage.dart';
 import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
+import 'package:flutter_android/android_app.dart';
 
 
 //==============================================================================
@@ -30,6 +31,12 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
   final FingerprintStorage _fingerprintStorage = FingerprintStorage();
+
+  // TODO check methods
+  // https://developer.android.com/reference/android/app/KeyguardManager
+  // https://pub.dev/documentation/flutter_android/latest/
+  // https://pub.dev/documentation/flutter_android/latest/android_app/KeyguardManager-class.html
+  KeyguardManager _keyguard = KeyguardManager();
 
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
@@ -79,6 +86,7 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
+                  // _keyguard. TODO KeyguardManager
                   widget.storageContent.readContent('authentication').then((_value) {
                     if(_value == 'fingerprint'){
                       print("trying fingerprint...");

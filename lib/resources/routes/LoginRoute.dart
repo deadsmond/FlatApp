@@ -6,7 +6,6 @@ import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
 import 'FingerprintRoute.dart';
 
-
 //==============================================================================
 //--------------------------- INITIALIZATION -----------------------------------
 // FlatApp login view, operating application access point
