@@ -190,3 +190,47 @@ someMethod() {
 }
 ```
 
+### On safely managing logins
+
+[keystore](https://developer.android.com/training/articles/keystore.html)
+ | [keystore UserAuthentication](https://developer.android.com/training/articles/keystore.html#UserAuthentication)
+
+    Require user authentication for key use
+    When generating or importing a key into the AndroidKeyStore 
+    you can specify that the key is only authorized to be used if 
+    the user has been authenticated. The user is authenticated using a 
+    subset of their secure lock screen credentials (pattern/PIN/password, 
+    fingerprint).
+    
+    This is an advanced security feature which is generally 
+    useful only if your requirements are that a compromise of your 
+    application process after key generation/import (but not before or during) 
+    cannot bypass the requirement for the user to be authenticated to use the key.
+    
+    When a key is authorized to be used only if the user has been 
+    authenticated, it is configured to operate in one of the two modes:
+    
+    User authentication authorizes the use of keys for a duration of time. 
+    All keys in this mode are authorized for use as soon as the user unlocks 
+    the secure lock screen or confirms their secure lock screen credential 
+    using the KeyguardManager.createConfirmDeviceCredentialIntent flow. 
+    The duration for which the authorization remains valid is specific to each 
+    key, as specified using setUserAuthenticationValidityDurationSeconds during 
+    key generation or import. Such keys can only be generated or imported if 
+    the secure lock screen is enabled (see KeyguardManager.isDeviceSecure()). 
+    These keys become permanently invalidated once the secure lock screen is 
+    disabled (reconfigured to None, Swipe or other mode which doesn't authenticate 
+    the user) or forcibly reset (e.g. by a Device Administrator).
+    
+    User authentication authorizes a specific cryptographic operation associated 
+    with one key. In this mode, each operation involving such a key must be 
+    individually authorized by the user. Currently, the only means of such 
+    authorization is fingerprint authentication: FingerprintManager.authenticate. 
+    Such keys can only be generated or imported if at least one fingerprint is 
+    enrolled (see FingerprintManager.hasEnrolledFingerprints). 
+    
+    These keys become permanently invalidated once a new fingerprint is 
+    enrolled or all fingerprints are unenrolled.
+
+It is recommended to check whether user has been authenticated in some period of time before logging him in,
+as it may be forced entry (via root). This authentication is strong enough to prevent malicious actions.
