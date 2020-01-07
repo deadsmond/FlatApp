@@ -45,16 +45,13 @@ class FingerprintStorage {
   Future<bool> authorizeAccess() async {
     print("Attempted fingerprint login");
     try {
-      bool check;
-      check = await _getBiometricsSupport();
-      if(check){
-        print("scanning...");
-        // this method opens a dialog for fingerprint authentication.
-        // we do not need to create a dialog but it popup from device natively.
-        return await _authenticateFingerprint();
+      bool _check;
+      _check = await _getBiometricsSupport();
+      if(_check){
+        return _authenticateFingerprint();
       }else{
         print("biometrics not supported");
-        return false;
+        return Future.value(false);
       }
     } on PlatformException catch (e) {
       if (e.code == auth_error.notAvailable) {
@@ -69,7 +66,7 @@ class FingerprintStorage {
       } else if (e.code == auth_error.otherOperatingSystem) {
         print("otherOperatingSystem");
       }
-      return false;
+      return Future.value(false);
     }
   }
 }

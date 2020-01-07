@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
 import '../storages/FingerprintStorage.dart';
 import '../storages/PasswordStorage.dart';
 import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
+import 'package:flutter_android/android_app.dart';
 
 
 //==============================================================================
@@ -29,6 +31,12 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
 
   //---------------------------- VARIABLES -------------------------------------
   final FingerprintStorage _fingerprintStorage = FingerprintStorage();
+
+  // TODO check methods
+  // https://developer.android.com/reference/android/app/KeyguardManager
+  // https://pub.dev/documentation/flutter_android/latest/
+  // https://pub.dev/documentation/flutter_android/latest/android_app/KeyguardManager-class.html
+  KeyguardManager _keyguard = KeyguardManager();
 
   //---------------------------- MAIN WIDGET -----------------------------------
   @override
@@ -78,17 +86,48 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
               case 1:
                 // check password from controller
                 try {
-                  print("trying fingerprint...");
-                  _fingerprintStorage.authorizeAccess().then((_check){
-                    if (_check) {
-                      print("Correct fingerprint, entry allowed.");
+                  // _keyguard. TODO KeyguardManager
+                  widget.storageContent.readContent('authentication').then((_value) {
+                    if(_value == 'fingerprint'){
+                      print("trying fingerprint...");
+                      _fingerprintStorage.authorizeAccess().then((_check){
+                        if(_check){
+                          print("Correct fingerprint, entry allowed.");
+                          // go to note route
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (buildContext) => FlatApp(
+                                      passwordStorage: PasswordStorage(),
+                                      storageContent: widget.storageContent
+                                  )
+                              )
+                          );
+                        } else {
+                          print("Wrong fingerprint, entry denied.");
+                          Flushbar(
+                            title: "Error",
+                            message: "Wrong fingerprint. Please try again.",
+                            duration: Duration(seconds: 5),
+                          )
+                            ..show(context);
+                        }
+                      });
+                    }else{
+                      if(_value == 'password') {
+                        print('Password is set as authentication');
+                      }else{
+                        // clear note file for security reasons
+                        print("Error during login. Cleared note cache...");
+                        widget.storageContent.clear('note_content');
+                      }
                       // go to note route
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (buildContext) => FlatApp(
                                   passwordStorage: PasswordStorage(),
-                                  storageContent: widget.storageContent
+                                  storageContent: ContentStorage()
                               )
                           )
                       );
@@ -98,7 +137,7 @@ class _FingerprintRouteState extends State<FingerprintRoute> {
                   // clear note file for security reasons
                   print("Error during fingerprint scan. "
                       "Cleared note cache...");
-                  widget.storageContent.clear();
+                  widget.storageContent.clear('note_content');
                   // what went wrong?
                   print(e);
                   // go to note route

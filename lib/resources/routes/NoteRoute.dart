@@ -68,7 +68,7 @@ class _FlatAppMainState extends State<FlatApp> {
   // load content from file
   void _loadContent(){
     try {
-      widget.storageContent.readContent().then((String value) {
+      widget.storageContent.readContent('note_content').then((String value) {
           setState(() {
               _content = value;
               _textController.text = value;
@@ -87,7 +87,7 @@ class _FlatAppMainState extends State<FlatApp> {
     _changeContent();
 
     // save content to file
-    widget.storageContent.writeContent(_content);
+    widget.storageContent.writeContent('note_content', _content);
   }
 
   //---------------------------- MAIN WIDGET -----------------------------------

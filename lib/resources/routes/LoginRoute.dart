@@ -6,7 +6,6 @@ import '../storages/ContentStorage.dart';
 import 'NoteRoute.dart';
 import 'FingerprintRoute.dart';
 
-
 //==============================================================================
 //--------------------------- INITIALIZATION -----------------------------------
 // FlatApp login view, operating application access point
@@ -130,41 +129,72 @@ class _LoginRouteState extends State<LoginRoute> {
               // LOGIN ---------------------------------------------------------
               print("Attempted login");
               try {
-                // check password from controller
-                widget.passwordStorage.verify(_textController.text).then((_check) {
-                  // check for first entry
-                  if (_check == null){
-                    print("first login noticed\ncleared note cache...");
-                    // clear note file for security reasons
-                    widget.storageContent.clear();
-                    _check = true;
-                    _errorDialog();
-                  }
-                  if (_check) {
-                    print("Correct password, entry allowed.");
-                    // go to note route
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (buildContext) => FingerprintRoute(
-                            storageContent: widget.storageContent
+                widget.storageContent.readContent('authentication').then((_value) {
+                  if(_value == 'password'){
+                    // check password from controller
+                    widget.passwordStorage.verify(_textController.text).then((_check) {
+                      // check for first entry
+                      if (_check == null){
+                        print("first login noticed\ncleared note cache...");
+                        // clear note file for security reasons
+                        widget.storageContent.clear('note_content');
+                        _check = true;
+                        _errorDialog();
+                      }
+                      if (_check) {
+                        print("Correct password, entry allowed.");
+                        // go to fingerprint route
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (buildContext) => FingerprintRoute(
+                                    storageContent: widget.storageContent
+                                )
+                            )
+                        );
+                      } else {
+                        print("Wrong password, entry denied.");
+                        Flushbar(
+                          title: "Error",
+                          message: "Wrong password. Please try again.",
+                          duration: Duration(seconds: 5),
                         )
-                      )
-                    );
-                  } else {
-                    print("Wrong password, entry denied.");
-                    Flushbar(
-                      title: "Error",
-                      message: "Wrong password. Please try again.",
-                      duration: Duration(seconds: 5),
-                    )
-                      ..show(context);
+                          ..show(context);
+                      }
+                    });
+                  }else{
+                    if(_value == 'fingerprint'){
+                      print('Fingerprint is set as authentication');
+                      // go to fingerprint route
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (buildContext) => FingerprintRoute(
+                                  storageContent: widget.storageContent
+                              )
+                          )
+                      );
+                    }else{
+                      // clear note file for security reasons
+                      print("Error during login. Cleared note cache...");
+                      widget.storageContent.clear('note_content');
+                      // go to note route
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (buildContext) => FlatApp(
+                                  passwordStorage: PasswordStorage(),
+                                  storageContent: ContentStorage()
+                              )
+                          )
+                      );
+                    }
                   }
                 });
               } catch (e){
                 // clear note file for security reasons
                 print("Error during login. Cleared note cache...");
-                widget.storageContent.clear();
+                widget.storageContent.clear('note_content');
                 // what went wrong?
                 print(e);
                 // ask for new password
